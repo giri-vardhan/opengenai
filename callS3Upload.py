@@ -2,11 +2,13 @@ import subprocess
 from datetime import datetime
 import os
 from dotenv import load_dotenv
+import socket
 
 def call_s3_upload(bucket_name, file_key_prefix, local_file_path):
     # Generate filename with prefix and current date
     today_date = datetime.now().strftime("%Y-%m-%d")
-    file_key = f"{file_key_prefix}_{today_date}.csv"
+    myHostName = socket.gethostname()
+    file_key = f"{file_key_prefix}_{myHostName}_{today_date}.csv"
 
     # Call the upload script
     subprocess.run(["python", "uploadFileTos3.py", bucket_name, file_key, local_file_path])
